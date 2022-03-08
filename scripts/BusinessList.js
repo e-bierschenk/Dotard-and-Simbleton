@@ -1,5 +1,5 @@
 import { getBusnString, getAgentString } from "./Business.js"
-import { getBusinesses, getNYBusinesses, getManufacturingBusinesses, getAgents, findBusiness } from "./BusinessData.js"
+import { getBusinesses, getNYBusinesses, getManufacturingBusinesses, getAgents, findBusiness, findAgent } from "./BusinessData.js"
 
 
 //Prints the full businesslist to the DOM
@@ -14,6 +14,7 @@ export const renderAll = () => {
             busnEl.innerHTML += getBusnString(business)
         }
     )
+    
 }
 
 //Prints just NY businesses to the DOM
@@ -55,10 +56,10 @@ export const renderAgents = () => {
 
 
 export const searchbox = () => {
-    const companySearchResultArticle = document.querySelector(".foundCompanies")
+    const companySearchResultArticle = document.querySelector(".found-companies")
     
     document
-        .querySelector("#companySearch")
+        .querySelector("#company-search")
         .addEventListener("keypress", keyPressEvent => {
             if (keyPressEvent.charCode === 13) {
                 /*
@@ -85,6 +86,40 @@ export const searchbox = () => {
                     ${foundBusiness.addressCity},
                     ${foundBusiness.addressStateCode}
                     ${foundBusiness.addressZipCode}
+                    </section>
+                `;
+            }
+        });
+}
+
+export const agentSearchbox = () => {
+    const agentSearchResultArticle = document.querySelector(".found-agent")
+    
+    document
+        .querySelector("#agent-search")
+        .addEventListener("keypress", keyPressEvent => {
+            if (keyPressEvent.charCode === 13) {
+                /*
+                    When user presses enter, find the matching business.
+                    You can use the `.includes()` method strings to
+                    see if a smaller string is part of a larger string.
+    
+                    Example:
+                        business.companyName.includes(keyPressEvent.target.value)
+                */
+    
+                const foundAgent = findAgent(keyPressEvent.target.value)
+    
+    
+                agentSearchResultArticle.innerHTML = `
+                    <h2>
+                    ${foundAgent.fullName}
+                    </h2>
+                    <section>
+                    ${foundAgent.company}
+                    </section>
+                    <section>
+                    ${foundAgent.phoneNumber}
                     </section>
                 `;
             }
